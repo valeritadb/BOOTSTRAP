@@ -444,7 +444,7 @@ html,body {
 }
 
 .proximamente-arrow-left { left: clamp(-1rem, -2vw, -1.5rem); }
-.proximamente-arrow-right { right: clamp(-1rem, -2vw, -1.5rem); }
+.proximamente-arrow-right { right: clamp(-2.5rem, -3.5vw, -4rem); }
 
 /* Columna texto: izquierda, centrado vertical */
 .proximamente-content {
@@ -499,6 +499,32 @@ html,body {
 .proximamente-lista a:hover {
   color: var(--c-naranja);
 }
+
+
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .footer-top-inner {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 1.5rem;
+    }
+    
+    .footer-contact {
+        align-items: center;
+        text-align: center;
+    }
+    
+    .footer-legal-top {
+        justify-content: center;
+    }
+    
+    .footer-instagram {
+        justify-content: center;
+    }
+}
+
 
 /* =====================================================
    MEDIA QUERIES UNIFICADAS - 2 breakpoints solamente
