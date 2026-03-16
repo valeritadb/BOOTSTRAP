@@ -500,31 +500,103 @@ html,body {
   color: var(--c-naranja);
 }
 
+/* *********************************************************
+   FOOTER
+   ********************************************************* */
+
+   footer{
+    padding: 2rem;
+    text-decoration: none;
+   }
 
 
-/* RESPONSIVE */
-@media (max-width: 768px) {
-    .footer-top-inner {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        gap: 1.5rem;
-    }
-    
-    .footer-contact {
-        align-items: center;
-        text-align: center;
-    }
-    
-    .footer-legal-top {
-        justify-content: center;
-    }
-    
-    .footer-instagram {
-        justify-content: center;
-    }
+.footer-top {
+    background: var(--c-azul);
+    color: var(--c-negro);
 }
 
+/* * Fila superior: nav izquierda, contacto derecha */
+.footer-top-inner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: clamp(2rem, 5vw, 4rem);
+    margin-bottom: clamp(2rem, 4vw, 3rem);
+}
+
+/* * Nav del footer en columna */
+.footer-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    font-size: clamp(1rem, 1.2vw, 1.15rem);
+}
+
+.footer-nav a {
+    color: var(--c-blanco);
+    text-transform: lowercase;
+    text-decoration: none;
+}
+
+/* * Bloque de contacto: dirección + instagram */
+.footer-contact {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.75rem;
+}
+
+.footer-contact a{
+  text-decoration: none;
+  color: var(--c-blanco);
+}
+
+.footer-contact p {
+    margin: 0;
+    font-size: clamp(0.95rem, 1.1vw, 1.1rem);
+    line-height: 1.55;
+    text-align: right;
+    color: var(--c-blanco);
+}
+
+/* * Fila de instagram con icono */
+.footer-instagram {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: clamp(0.95rem, 1.1vw, 1.1rem);
+    color: var(--c-blanco);
+    transition: opacity var(--trans-fast);
+    text-decoration: none;
+}
+
+.footer-instagram svg {
+    width: 1.15em;
+    height: 1.15em;
+    flex-shrink: 0;
+}
+
+/* * Legal: links y copyright en línea con separador superior */
+.footer-legal {
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(0.5rem, 2vw, 1.5rem);
+    align-items: center;
+    font-size: clamp(0.8rem, 1vw, 0.9rem);
+    padding-top: clamp(0.75rem, 2vw, 1.25rem);
+    border-top: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.footer-legal a {
+    color: var(--c-blanco);
+}
+
+/* * Copyright: empuja hacia la derecha en escritorio */
+.footer-copyright {
+    color: var(--c-blanco);
+    margin-left: auto;
+}
 
 /* =====================================================
    MEDIA QUERIES UNIFICADAS - 2 breakpoints solamente
@@ -626,6 +698,23 @@ html,body {
   .proximamente-content h2 {
     text-align: center;
   }
+
+  /* * Contacto alineado a la izquierda en tablet */
+    .footer-contact {
+        align-items: flex-start;
+    }
+
+    .footer-contact p {
+        text-align: left;
+    }
+
+    /* * Copyright en su propia línea */
+    .footer-copyright {
+        margin-left: 0;
+        width: 100%;
+    }
+
+
 }
 
 /* BREAKPOINT 2: MÓVIL PEQUEÑO (≤576px) */
@@ -633,6 +722,27 @@ html,body {
   .seccion-intro {
     padding: clamp(3rem, 10vw, 5rem) var(--section-pad-h);
   }
+
+  /* * Footer legal en columna */
+    .footer-legal {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.4rem;
+    }
+
+    .footer-copyright {
+        margin-left: 0;
+    }
+
+    .footer-contact {
+        align-items: flex-start;
+    }
+
+    .footer-contact p {
+        text-align: left;
+    }
 }
+
+
 
 
