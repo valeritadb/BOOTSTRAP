@@ -699,6 +699,9 @@ html,body {
     text-align: center;
   }
 
+  .proximamente-arrow-left { left: clamp(-1rem, -2vw, -1.5rem); }
+  .proximamente-arrow-right { right: clamp(-2rem, -3vw, -3.5rem); }
+
   /* * Contacto alineado a la izquierda en tablet */
     .footer-contact {
         align-items: flex-start;
