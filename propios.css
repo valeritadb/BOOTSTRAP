@@ -1,0 +1,612 @@
+/* =====================================================
+   VARIABLES CSS - Sistema central de diseño
+   ===================================================== */
+/* Cambiar un valor aquí actualiza toda la web automáticamente */
+:root {
+  /* COLORES PRINCIPALES - Paleta consistente */
+  --c-naranja: #E57F12; /* Primario: CTAs, títulos, hovers */
+  --c-azul: #9CCDCE;    /* Secundario: estados activos/focus */
+  --c-negro: #000000;   /* Texto principal */
+  --c-blanco: whitesmoke;  /* Fondos limpios */
+  
+  /* TIPOGRAFÍA - Fuentes base y display */
+  --font-base: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-display: 'FutureBK', sans-serif;
+  
+  /* ESPACIADO RESPONSIVE - Escala suave con viewport */
+  --section-pad-v: clamp(4rem, 8vw, 9rem); /* Vertical: móvil→desktop */
+  --section-pad-h: clamp(1.5rem, 4vw, 6vw); /* Horizontal: márgenes laterales */
+  
+  /* LAYOUT FLEX - Columnas y gaps */
+  --section-gap: clamp(2rem, 5vw, 5rem);  /* Espacio entre columnas */
+  --col-break: 28rem;                     /* Breakpoint flex: apila <28rem */
+  
+  /* ANIMACIONES - Transiciones suaves */
+  --trans: 0.35s ease;      /* General: hovers, colores */
+  --trans-fast: 0.2s ease;  /* Rápida: iconos, focus */
+}
+
+/* =====================================================
+   FUENTES PERSONALIZADAS
+   ===================================================== */
+/* FutureBK - Fuente display para títulos */
+@font-face {
+  font-family: 'FutureBK';
+  src: url('fonts/Futurebk.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap; /* Carga rápida, fallback inmediato */
+}
+
+/* =====================================================
+   SCROLLBAR NARANJA PERSONALIZADA
+   ===================================================== */
+/* Webkit (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 0.8rem;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 5%;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--c-naranja);
+  border-radius: 5%;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #d16a0e; /* Naranja más oscuro hover */
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--c-naranja) #f1f1f1;
+}
+
+
+/* =====================================================
+   RESET + BASE GLOBAL
+   ===================================================== */
+/* Box-sizing universal + elimina márgenes/padding por defecto */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Scroll suave nativo + font-size base */
+html,body {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  padding-top: 2rem;
+  width: 100%;
+  overflow-x: hidden;
+  background-color: var(--c-blanco);
+}
+
+
+/* =====================================================
+   NAVBAR - Menú principal fijo
+   ===================================================== */
+/* Contenedor navbar: posición absoluta sobre hero */
+.main-nav {
+  padding: 1rem 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1030; /* Sobre hero SVG */
+}
+
+/* Links navbar: estilo base naranja */
+.link-colab {
+  color: var(--c-naranja);
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: color var(--trans-fast);
+  line-height: 1;
+}
+
+/* Hover: cambia a azul */
+.link-colab:hover {
+  color: var(--c-azul);
+}
+
+/* Focus/Active: fuerza azul (accesibilidad + estado persistente) */
+.link-colab:focus-visible,
+.link-colab:active,
+.link-colab:focus-within {
+  color: var(--c-azul) !important;
+}
+
+/* =====================================================
+   ICONOS NAVBAR - Sistema dual normal/hover
+   ===================================================== */
+/* Iconos desaparecen/aparecen: normal naranja → hover azul */
+.link-colab:hover .icono-links-normal,
+.link-colab:focus-visible .icono-links-normal,
+.link-colab:active .icono-links-normal,
+.link-colab:focus-within .icono-links-normal {
+  opacity: 0;
+}
+
+.link-colab:hover .icono-links-hover,
+.link-colab:focus-visible .icono-links-hover,
+.link-colab:active .icono-links-hover,
+.link-colab:focus-within .icono-links-hover {
+  opacity: 1;
+}
+
+/* Contenedor icono: posicionamiento relativo para overlay */
+.icono-links {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+}
+
+/* Imágenes icono: fill 100%, transición opacity */
+.icono-links img {
+  position: relative;
+  inset: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: opacity var(--trans-fast);
+  transform: none !important; /* Evita escalado Bootstrap */
+}
+
+.icono-links-normal { opacity: 1; transition: opacity 0.3s ease; }
+.icono-links-hover { opacity: 0; transition: opacity 0.3s ease; }
+
+/* =====================================================
+   HERO SECTION - SVG full viewport
+   ===================================================== */
+/* Hero: altura completa viewport, fondo sutil */
+.hero {
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Contenedor SVG: centrado responsive */
+.hero-stage {
+  width: 100%;
+  height: clamp(70vh, 90vw, 100vh);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-svg {
+  width: 100%;
+  height: 100%;
+  max-width: 1400px;
+  max-height: 710px;
+}
+
+/* Texto SVG: stroke invisible para efecto hover */
+.hero-svg-text {
+  font-weight: 400;
+  paint-order: stroke fill;
+  stroke: transparent;
+  cursor: default;
+}
+
+/* Hover texto COLAB: fill naranja */
+#hero-text {
+  transition: fill var(--trans);
+  cursor: pointer;
+}
+
+#hero-text:hover {
+  fill: var(--c-naranja) !important;
+}
+
+/* =====================================================
+   SECCIONES INTRO - ESPACIO Y SERVICIOS
+   ===================================================== */
+/* Padding responsive heredado de variables CSS */
+.seccion-intro {
+  padding: var(--section-pad-v) var(--section-pad-h);
+}
+
+
+
+/* =====================================================
+   ESPACIO: Layout específico con imagen
+   ===================================================== */
+/* Fila centrada y limitada */
+#espacio .row {
+  max-width: 70%;
+  margin: 0 auto;
+}
+
+/* Columna texto: crece + padding protector vs imagen */
+#espacio .col-lg-6:first-child {
+  flex-grow: 1;
+  padding-right: clamp(2rem, 5vw, 4rem);
+}
+
+/* Imagen: escala grande, hover scale */
+#espacio .imagen-seccion {
+  max-height: clamp(20rem, 25rem, 30rem);
+  width: auto;
+  height: auto;
+  object-fit: cover;
+  transition: transform var(--trans);
+}
+
+#espacio .imagen-seccion:hover { transform: scale(1.02); }
+
+/* Alineación derecha imagen */
+.contenedor-imagen {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+/* =====================================================
+   SERVICIOS: Layout flex columnas (título izq, texto der)
+   ===================================================== */
+/* Contenedor flex principal: responsive auto-apilado */
+.section-inner {
+  max-width: 65rem;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--section-gap);
+  align-items: stretch; /* Mismas alturas desktop */
+  justify-content: center;
+}
+
+/* Ajuste de ancho: igual que la sección de espacio (70% del contenedor) */
+.section-servicios .section-inner {
+  max-width: 70%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--section-gap);
+  align-items: stretch;
+}
+
+/* Columna texto: flexible, centrado vertical */
+.col-texto {
+  flex: 1 1 var(--col-break);
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Columna título: flexible, alineado izquierda */
+.col-titulo-grande {
+  flex: 1 1 var(--col-break);
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  /* Empuja el título ligeramente hacia la derecha para acercarlo al contenido de texto */
+  padding-right: clamp(1rem, 3vw, 2rem);
+}
+
+/* =====================================================
+   TIPOGRAFÍA COMPARTIDA - Títulos y textos
+   ===================================================== */
+/* Títulos: naranja uppercase subrayado, escala responsive */
+.titulo-seccion {
+  color: var(--c-naranja);
+  font-size: clamp(1.5rem, 3rem, 3.5rem);
+  font-weight: 600;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-decoration-thickness: 0.15rem;
+  text-underline-offset: 0.4rem;
+  margin: 0 0 clamp(1rem, 2.5vw, 1.75rem);
+  line-height: 1;
+  cursor: default;
+  transition: color var(--trans);
+}
+
+
+/* Párrafos en columnas flex */
+.col-texto p {
+  margin: 0 0 clamp(0.6rem, 1.5vw, 1rem);
+  line-height: 1.65;
+  font-size: clamp(1rem, 1.15vw, 1.1rem);
+  color: var(--c-negro);
+}
+
+/* =====================================================
+   LINKS "VER MÁS" - Consistentes navbar/secciones
+   ===================================================== */
+/* Contenedor inline-flex con icono + texto */
+.link-ver-mas {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-top: clamp(0.75rem, 2vw, 1.25rem);
+  font-size: clamp(0.95rem, 1.1vw, 1.05rem);
+  font-weight: 500;
+  text-decoration: none;
+  color: var(--c-naranja);
+  transition: color var(--trans-fast);
+}
+
+.link-ver-mas:hover { text-decoration: underline; }
+
+.link-ver-mas-texto { color: inherit; }
+.link-ver-mas-icono img { transition: opacity var(--trans-fast); }
+
+/* Servicios: stretch height columnas */
+.section-servicios .section-inner { align-items: stretch; }
+
+/* =====================================================
+   SLIDER PROXIMAMENTE - Diapositiva 9 optimizada
+   ===================================================== */
+.section-proximamente .section-inner {
+  align-items: stretch; /* Alturas iguales desktop */
+}
+
+/* Columna media: slider + espacio flechas */
+.proximamente-media {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 clamp(2rem, 4vw, 3.5rem);
+  flex: 1 1 var(--col-break);
+  min-width: 0;
+}
+
+/* Slider: escala responsive 320x380 proporción fija */
+.proximamente-slider {
+  position: relative;
+  width: 100%;
+  max-width: clamp(16rem, 38vw, 22rem);
+  aspect-ratio: 320 / 380;
+}
+
+/* Marcos naranjas: offsets escalan con viewport */
+.slider-frame {
+  position: absolute;
+  inset: 0;
+  border: 0.1875rem solid var(--c-naranja);
+  background: transparent;
+  z-index: 1;
+}
+
+.slider-frame--1 {
+  transform: translate(clamp(0.4rem, 1vw, 0.75rem), clamp(0.4rem, 1vw, 0.75rem));
+}
+
+.slider-frame--2 {
+  transform: translate(clamp(0.8rem, 2vw, 1.5rem), clamp(0.8rem, 2vw, 1.5rem));
+}
+
+/* Track: overflow hidden + fondo blanco */
+.proximamente-track {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  overflow: hidden;
+  background: var(--c-blanco);
+}
+
+/* Slides: animación slide-in desde derecha */
+.slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: translateX(1.5rem);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.slide--active {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Flechas: posición sticky top/bottom */
+.proximamente-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: clamp(1.25rem, 2.5vw, 2rem);
+  line-height: 1;
+  z-index: 10;
+  padding: 0.25rem;
+  color: var(--c-negro);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color var(--trans-fast);
+}
+
+.proximamente-arrow:hover {
+  color: var(--c-naranja);
+}
+
+.proximamente-arrow-left { left: clamp(-1rem, -2vw, -1.5rem); }
+.proximamente-arrow-right { right: clamp(-1rem, -2vw, -1.5rem); }
+
+/* Columna texto: izquierda, centrado vertical */
+.proximamente-content {
+  flex: 1 1 var(--col-break);
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding-left: clamp(1rem, 3vw, 2rem);
+  cursor: default;
+}
+
+.proximamente-content h2 {
+  text-transform: lowercase;
+  color: var(--c-naranja);
+  font-size: clamp(1.75rem, 3.5vw, 3rem);
+  font-weight: 700;
+  margin: 0 0 clamp(0.75rem, 2vw, 1.25rem) 0;
+}
+
+.proximamente-content p {
+  max-width: 26rem;
+  margin: 0 0 clamp(0.75rem, 2vw, 1.25rem) 0;
+  line-height: 1.65;
+  font-size: clamp(1rem, 1.15vw, 1.1rem);
+}
+
+.proximamente-down-arrow {
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  margin: clamp(0.75rem, 2vw, 1.25rem) 0;
+  line-height: 1;
+  color: var(--c-naranja);
+}
+
+.proximamente-lista {
+  font-size: clamp(0.95rem, 1.1vw, 1.05rem);
+  list-style: none;
+  padding: 0;
+}
+
+.proximamente-lista li {
+  margin-bottom: 0.5rem;
+}
+
+.proximamente-lista a {
+  color: var(--c-negro);
+  text-decoration: underline;
+  transition: color var(--trans-fast);
+}
+
+.proximamente-lista a:hover {
+  color: var(--c-naranja);
+}
+
+/* =====================================================
+   MEDIA QUERIES UNIFICADAS - 2 breakpoints solamente
+   ===================================================== */
+/* BREAKPOINT 1: TABLET/MÓVIL (≤991px) */
+@media (max-width: 991px) {
+  /* Navbar: colapsa vertical + fondo negro */
+  .navbar-collapse {
+    position: absolute;
+    top: 100%; left: 0; right: 0;
+    background: #000;
+    padding: 1rem;
+  }
+  .nav-link { display: block; padding: 0.5rem 1rem; }
+  .link-colab { font-size: 0.9rem; }
+  .icono-links { width: 16px; height: 16px; }
+  
+  /* Espacio: imagen centrada */
+  #espacio .row { max-width: 95%; }
+  #espacio .col-lg-6:first-child { padding-right: 0; }
+  #espacio .contenedor-imagen {
+    justify-content: center !important;
+    margin-top: 3rem;
+  }
+  
+  /* Servicios: columnas → stack vertical centrado */
+  .section-inner {
+    flex-direction: column;
+    text-align: center;
+  }
+  .col-titulo-grande { 
+    padding-right: 0 !important; /* Elimina padding innecesario */
+    margin-bottom: 0.25rem;      /* Espaciado mínimo título-texto */
+    justify-content: center; }
+  
+  /* Títulos/textos centrados */
+  .titulo-seccion { text-align: center; margin-bottom: 2rem; }
+  /* En móvil, añade espacio específico entre título SERVICIOS y su texto */
+  .section-servicios .titulo-seccion { margin-bottom: 0 !important; }
+  .section-servicios .col-titulo-grande { margin-bottom: 0 !important; }
+  .section-servicios .col-texto { margin-top: 2rem !important; }
+  .section-servicios .col-texto p { margin-top: 0 !important; }
+  .texto-intro { text-align: center; }
+  
+  /* Contenedores full-width móvil */
+  .contenedor-servicios { max-width: 100%; }
+  
+
+  .section-servicios .section-inner {
+    display: block; /* Apilado limpio como en la versión antigua */
+    max-width: 100%;
+  }
+  .section-servicios .col-titulo-grande,
+  .section-servicios .col-texto {
+    width: 100%;
+  }
+  .container {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    max-width: 100vw !important;
+  }
+  
+  /* Secciones usan padding propio centrado */
+  .seccion-intro {
+    padding-left: var(--section-pad-h);
+    padding-right: var(--section-pad-h);
+  }
+  
+  .section-inner,
+  #espacio .row {
+    max-width: calc(100vw - (var(--section-pad-h) * 2));
+    padding-left: clamp(1rem, 4vw, 2rem);
+    padding-right: clamp(1rem, 4vw, 2rem);
+  }
+
+  .hero-stage,
+  .hero-svg {
+    max-width: 100vw;
+    overflow: hidden;
+  }
+
+  .section-proximamente .section-inner {
+    flex-direction: column;
+    gap: clamp(2rem, 6vw, 4rem);
+  }
+  
+  .proximamente-media {
+    order: -1; /* Slider primero */
+    padding: 0 clamp(1rem, 3vw, 2rem);
+    width: 100%;
+  }
+  
+  .proximamente-content {
+    padding-left: 0;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .proximamente-content h2 {
+    text-align: center;
+  }
+}
+
+/* BREAKPOINT 2: MÓVIL PEQUEÑO (≤576px) */
+@media (max-width: 576px) {
+  .seccion-intro {
+    padding: clamp(3rem, 10vw, 5rem) var(--section-pad-h);
+  }
+}
+
+
